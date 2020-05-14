@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div id='app'>
+        <p>{{currentTime}}</p>
+        <div>
+            <i v-for='(item,index) in timeArr'>
+                <img :src="'./img/'+item+'.jpg'" alt="">
+            </i>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+                time:'',
+                currentTime:'',
+                timeArr:''
+            },
+            methods:{
+                getDate(){
+                    var date = new Date()
+                    var h = date.getHours() 
+                    if(h<10) h = '0' + h
+                    var m = date.getMinutes() 
+                    if(m<10) m = '0' + m
+                    var s = date.getSeconds()
+                    if(s<10) s = '0' + s
+
+                    this.timeArr = (h.toString()+m.toString()+s.toString()).split('')
+                    this.timeArr.splice(2,0,'colon')
+                    this.timeArr.splice(5,0,'colon')
+                    this.currentTime = `${h}:${m}:${s}`
+                },
+                timer(){
+                    return setInterval(()=>{
+                        this.getDate()
+                        console.log(this.timeArr);
+                    },1000)
+                }
+            },
+            created(){
+                this.getDate()
+            },
+            mounted(){
+                this.timer()
+            },
+        })
+    </script>
+</body>
+</html>
